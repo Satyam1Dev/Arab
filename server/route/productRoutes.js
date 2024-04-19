@@ -30,19 +30,19 @@ router.put('/:id', async (req, res) => {
 });
 
 // Get product route
-router.get('/:id', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const { id } = req.params;
-    const product = await Product.findById(id);
-    if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
+    const products = await Product.find();
+    if (!products || products.length === 0) {
+      return res.status(404).json({ error: 'No products found' });
     }
-    res.status(200).json(product);
+    res.status(200).json(products);
   } catch (error) {
-    console.error('Error fetching product:', error);
-    res.status(500).json({ error: 'Error fetching product' });
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'Error fetching products' });
   }
 });
+
 
 // Delete product route
 router.delete('/:id', async (req, res) => {

@@ -7,7 +7,11 @@ const categorySchema = new mongoose.Schema({
     required: true,
     unique: true // Ensure that each category has a unique name
   },
-  description: {
+  image: {
+    type: String,
+    required: true
+  },
+  slug: {
     type: String,
     required: true
   }

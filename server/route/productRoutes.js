@@ -1,4 +1,3 @@
-// productRoutes.js
 const express = require('express');
 const router = express.Router();
 const Product = require('../modal/Product');
@@ -6,8 +5,8 @@ const Product = require('../modal/Product');
 // Create product route
 router.post('/', async (req, res) => {
   try {
-    const { title, description, price, category, image, owner } = req.body;
-    const newProduct = new Product({ title, description, price, category, image, owner });
+    const { name, image, slug } = req.body;
+    const newProduct = new Product({ name, image, slug });
     const savedProduct = await newProduct.save();
     res.status(201).json(savedProduct);
   } catch (error) {
@@ -16,12 +15,14 @@ router.post('/', async (req, res) => {
   }
 });
 
+
+
 // Update product route (PUT)
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, price, category, image } = req.body;
-    const updatedProduct = await Product.findByIdAndUpdate(id, { title, description, price, category, image }, { new: true });
+    const { name,image, slug} = req.body;
+    const updatedProduct = await Product.findByIdAndUpdate(id, { name,  image, slug}, { new: true });
     res.status(200).json(updatedProduct);
   } catch (error) {
     console.error('Error updating product:', error);
@@ -42,7 +43,6 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: 'Error fetching products' });
   }
 });
-
 
 // Delete product route
 router.delete('/:id', async (req, res) => {

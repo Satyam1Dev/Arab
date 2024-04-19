@@ -2,16 +2,22 @@
 const express = require('express');
 const router = express.Router();
 const Category = require('../modal/Category');
+const slugify = require('slugify');
+
 
 // Create a category
 router.post('/', async (req, res) => {
   try {
-    const { name, description } = req.body;
-    const newCategory = new Category({ name, description });
+    const { name, image } = req.body;
+    const slug = slugify(name, { lower: true }); // Generate slug from name
+    const newCategory = new Category({ name, image, slug });
     const savedCategory = await newCategory.save();
     res.status(201).json(savedCategory);
   } catch (error) {
     console.error('Error creating category:', error);
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.name) {
+      return res.status(400).json({ error: 'Category with this name already exists' });
+    }
     res.status(500).json({ error: 'Error creating category' });
   }
 });
@@ -44,8 +50,8 @@ router.get('/:id', async (req, res) => {
 // Update a category
 router.put('/:id', async (req, res) => {
   try {
-    const { name, description } = req.body;
-    const updatedCategory = await Category.findByIdAndUpdate(req.params.id, { name, description }, { new: true });
+    const { name, image,slug } = req.body;
+    const updatedCategory = await Category.findByIdAndUpdate(req.params.id, { name, image,slug }, { new: true });
     res.status(200).json(updatedCategory);
   } catch (error) {
     console.error('Error updating category:', error);

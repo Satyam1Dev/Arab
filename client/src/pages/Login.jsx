@@ -25,29 +25,32 @@ const LoginPage = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:3001/api/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        const user = await response.json();
-        login(user); // Assuming the API returns the user data upon successful login
-        // Store login data in local storage
-        localStorage.setItem('loggedInUser', JSON.stringify(formData));
-        navigate('/profile'); // Redirect to the profile page
-      } else {
-        console.error('Login failed:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error logging in:', error);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await fetch('http://localhost:3001/api/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+    if (response.ok) {
+      const user = await response.json();
+      login(user); // Assuming the API returns the user data upon successful login
+      // Store login data in local storage
+      localStorage.setItem('loggedInUser', JSON.stringify(user));
+      // Store user ID separately
+      localStorage.setItem('userId', user._id);
+      navigate('/profile'); // Redirect to the profile page
+    } else {
+      console.error('Login failed:', response.statusText);
     }
-  };
+  } catch (error) {
+    console.error('Error logging in:', error);
+  }
+};
+
 
   return (
     <div>

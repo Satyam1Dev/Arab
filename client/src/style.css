@@ -103,14 +103,15 @@ a.link {
   margin: var(--bs-modal-margin);
   pointer-events: none;
 }
-.modal-dialog.modal-dialog-centered.p-2.mt-5 {
+.modal-dialog.modal-dialog-centered.p-3.mt-5 {
   position: fixed;
   top: 0;
   bottom: 0;
-  left: 25%;
+  left: 30%;
   z-index: 1;
   margin-bottom: 0px;
   background-color: white;
+  
 }
 .form-control{
   border-bottom: solid 1px #0dcaf0!important;
@@ -147,8 +148,28 @@ button.btn.btn-outline-secondary.position-absolute.bottom-0.end-0.mb-2 {
 .carousel-control-prev-icon,.carousel-control-next-icon {
   display: none!important;
 }
-
+.modal-dialog{
+  margin: auto;
+  width: 600px!important;  
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
 @media only screen and (max-width: 600px) {
   .product-row {
     gap: 150px;
-  }}
+  }
+  .modal-dialog.modal-dialog-centered.p-3.mt-5 {    
+    position: absolute !important;
+        top: 0;
+        bottom: 0;
+        left: 5% !important;
+        z-index: 1;
+        margin-bottom: 0px;
+        background-color: white;
+        padding: 50px;
+        height: 150vh;
+}
+.modal-dialog{
+  width: 340px !important;
+  
+}
+}

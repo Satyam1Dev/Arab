@@ -27,11 +27,8 @@ const TermsAndConditions = ({ onAccept, onCancel }) => {
   return (
     <div style={{ display: showDialog ? "block" : "none" }}>
       <div
-        className="modal-dialog modal-dialog-centered p-2 mt-5 mb-5"
-        style={{
-          width: "40%",
-          boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)",
-        }}
+        className="modal-dialog modal-dialog-centered p-3 mt-5 mb-5"
+        
       >
         <div className="modal-content">
           <div className="modal-header">

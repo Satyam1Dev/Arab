@@ -1,20 +1,30 @@
 import React, { useState } from "react";
-import { useAuth } from "../component/AuthContext"; // Import useAuth hook
+import { useAuth } from "../component/AuthContext";
 import Header from "../component/header";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import TermsAndConditions from "./TermsAndConditions";
 import { FaCamera } from "react-icons/fa";
+import ChangePassword from "../component/ChangePassword"; // Import the ChangePassword component
 
 const Profile = () => {
-  const { user, isAuthenticated } = useAuth(); // Use the useAuth hook
+  const { user, isAuthenticated } = useAuth();
   const [showDialog, setShowDialog] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [image, setImage] = useState(localStorage.getItem('profileImage') || '');
-
-  // Define the updateHeaderImage function
+  const { id } = useParams(); // Retrieve user ID from URL params
   const updateHeaderImage = (url) => {
-    // Logic to update the header image
     console.log("Updating header image with URL:", url);
     localStorage.setItem('profileImage', url);
+  };
+
+  // Handle opening the password modal
+  const handleOpenPasswordModal = () => {
+    setShowPasswordModal(true);
+  };
+
+  // Handle closing the password modal
+  const handleClosePasswordModal = () => {
+    setShowPasswordModal(false);
   };
 
   const handleOpenDialog = () => {
@@ -27,7 +37,6 @@ const Profile = () => {
 
     reader.onloadend = () => {
       setImage(reader.result);
-      // Call the updateHeaderImage function from the Profile component
       updateHeaderImage(reader.result);
     };
 
@@ -38,7 +47,7 @@ const Profile = () => {
 
   return (
     <div>
-      <Header updateHeaderImage={updateHeaderImage} />
+      <Header />
       <div className="container ">
         <h2>Profile Page</h2>
         {isAuthenticated ? (
@@ -55,9 +64,7 @@ const Profile = () => {
                   width={"200"}
                 />
               </div>
-              <p>Full Name: {user.fullName}</p>
-              <p>Email: {user.email}</p>
-              <p>Password: {user.password}</p>
+              <p className="mt-4">{user.email}</p>
               <label htmlFor="profileImage" className="camera-icon">
                 <button
                   className="btn btn-outline-primary mt-3"
@@ -87,7 +94,7 @@ const Profile = () => {
               {showDialog && (
                 <TermsAndConditions onCancel={() => setShowDialog(false)} />
               )}
-              <button className="btn btn-outline-primary">
+              <button className="btn btn-outline-primary" onClick={handleOpenPasswordModal}>
                 Change Password
               </button>
             </div>
@@ -104,6 +111,25 @@ const Profile = () => {
           </div>
         )}
       </div>
+
+      {/* Password Update Modal */}
+      {showPasswordModal && (
+        <div className="modal" tabIndex="-1" role="dialog" style={{display: 'block', backgroundColor: 'rgba(0,0,0,0.5)'}}>
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header justify-content-between">
+                <h5 className="modal-title">Change Password</h5>
+                <button type="button" className="close btn btn-outline-primary" onClick={handleClosePasswordModal}>
+                  <span>&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <ChangePassword handleClosePasswordModal={handleClosePasswordModal} /> {/* Pass handleClosePasswordModal as props */}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

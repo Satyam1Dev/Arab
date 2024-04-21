@@ -9,6 +9,7 @@ import CategoryList from "../product/CategoryList";
 import { AuthProvider } from '../component/AuthContext';
 import TermsAndConditions from "../pages/TermsAndConditions";
 import UsersTable from "../pages/UsersTable";
+import ChangePassword from "../component/ChangePassword";
 
 const AppRouter = () => {
   return (
@@ -18,6 +19,8 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/chp" element={<ChangePassword />} />
+
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup/>} />
         <Route path="/products" element= {<ProductList/>} />   
